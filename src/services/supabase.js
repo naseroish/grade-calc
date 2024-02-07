@@ -1,35 +1,22 @@
-// supabaseService.js
-
-// Import the Supabase client
 import { createClient } from '@supabase/supabase-js';
 
-// Create a new Supabase client instance
-const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_API_KEY');
+const supabaseUrl = 'YOUR_SUPABASE_URL';
+const supabaseKey = 'YOUR_SUPABASE_API_KEY';
 
-// Define your Supabase service functions
-export const fetchUsers = async () => {
-    // Fetch users from the 'users' table
-    const { data, error } = await supabase.from('users').select('*');
-    
-    if (error) {
-        console.error('Error fetching users:', error);
-        return [];
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+export const authService = {
+  signIn: async (email, password) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const { user, error } = await supabase.auth.signIn({ email, password });
+      if (error) {
+        throw error;
+      }
+      return user;
+    } catch (error) {
+      throw error;
     }
-    
-    return data;
+  },
+  // Add other authentication methods (sign-up, sign-out, etc.) here
 };
-
-export const createUser = async (user) => {
-    // Insert a new user into the 'users' table
-    const { data, error } = await supabase.from('users').insert(user);
-    
-    if (error) {
-        console.error('Error creating user:', error);
-        return null;
-    }
-    
-    return data[0];
-};
-
-// Export the Supabase client instance
-export default supabase;
