@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import GradeLogo from '../assets/gradianceblack.png';
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -18,8 +19,8 @@ export default function Header() {
         <a href="#" className="-m-1.5 p-1.5">
           <span className="sr-only">Your Company</span>
           <img
-            className="h-8 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            className="h-16 w-auto"
+            src={GradeLogo}
             alt=""
           />
         </a>
@@ -54,8 +55,8 @@ export default function Header() {
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              className="h-16 w-auto"
+              src={GradeLogo}
               alt=""
             />
           </a>
