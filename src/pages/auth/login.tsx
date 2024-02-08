@@ -1,25 +1,25 @@
 // import React from 'react';
-import { useState } from "react";
-import { authService } from '../../services/supabase.js';
+// import { useState } from "react";
+// import { authService } from '../../services/supabase.js';
 
 export default function Login() {
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [email, setEmail] = useState('');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [password, setPassword] = useState('');
+    // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const [email, setEmail] = useState('');
+    // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const [password, setPassword] = useState('');
   
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleLogin = async () => {
-      try {
-        const user = await authService.signIn(email, password);
-        console.log('User:', user);
-        // Handle successful login (e.g., redirect)
-      } catch (error) {
-        console.error('Login error:', error.message);
-        // Handle login error (e.g., display error message)
-      }
-    };
+    // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const handleLogin = async () => {
+    //   try {
+    //     const user = await authService.signIn(email, password);
+    //     console.log('User:', user);
+    //     // Handle successful login (e.g., redirect)
+    //   } catch (error) {
+    //     console.error('Login error:', error.message);
+    //     // Handle login error (e.g., display error message)
+    //   }
+    // };
     
 
     return (
