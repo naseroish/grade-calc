@@ -10,19 +10,20 @@ const HomeNav = () => {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">UniCalc</a>
+                <img src='/src/assets/gradiancewhite.png' style={{height: '50px'}}></img>
+                <a className="btn btn-ghost text-xl" style={{letterSpacing: '3px', fontWeight: '400', color:'White'}}> GRADIANCE</a>
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a>Link</a></li>
+                    <li><a style={{color:'White'}}>Link</a></li>
                     <li>
                         <details>
-                            <summary>
+                            <summary style={{color:'White'}}>
                                 Account
                             </summary>
                             <ul className="p-2 bg-base-100 rounded-t-none">
-                                <li><a>Link 1</a></li>
-                                <li><a onClick={Logout}>Signout</a></li>
+                                <li><a style={{color:'White'}}>Link 1</a></li>
+                                <li><a onClick={Logout} style={{color:'White'}}>Signout</a></li>
                             </ul>
                         </details>
                     </li>
