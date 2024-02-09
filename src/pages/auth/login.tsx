@@ -10,8 +10,26 @@ export default function Login() {
 
     if (!session) {
         return(
-        <div className="mx-auto max-w-2xl py-16 sm:py-16 lg:py-16">
-            <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <div  className="mx-auto max-w-md py-16 sm:py-16 lg:py-16">
+            <Auth supabaseClient={supabase}
+                appearance={{
+                    theme: ThemeSupa,
+                    variables: {
+                        default: {
+                          colors: {
+                            brand: '#a991f7',
+                            brandAccent: '#37cdbe',
+                            inputText: '',
+                            defaultButtonBackground: '',
+                          },
+                          space: {
+                            inputPadding: '10px 15px',
+                          },
+                          
+                        },
+                      },
+                    
+                }} />
         </div>
         );
          
