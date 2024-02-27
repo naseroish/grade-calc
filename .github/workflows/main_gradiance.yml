@@ -16,8 +16,11 @@ jobs:
     env:
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
       VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+      
 
     steps:
+      - name: Print environment variables
+        run: echo $VITE_SUPABASE_URL $VITE_SUPABASE_KEY
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
