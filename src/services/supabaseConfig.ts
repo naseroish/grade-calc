@@ -3,7 +3,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 let supabaseUrl: string;
 let supabaseAnonKey: string;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'Production') {
   // In production (Azure)
   supabaseUrl = process.env.VITE_SUPABASE_URL as string;
   supabaseAnonKey = process.env.VITE_SUPABASE_KEY as string;
