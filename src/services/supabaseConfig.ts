@@ -5,12 +5,12 @@ let supabaseAnonKey: string;
 
 if (process.env.NODE_ENV === 'production') {
   // In production (Azure)
-  supabaseUrl = process.env.VITE_SUPABASE_URL;
-  supabaseAnonKey = process.env.VITE_SUPABASE_KEY;
+  supabaseUrl = process.env.VITE_SUPABASE_URL as string;
+  supabaseAnonKey = process.env.VITE_SUPABASE_KEY as string;
 } else {
   // In development (local)
-  supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY;
+  supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+  supabaseAnonKey = import.meta.env.VITE_SUPABASE_KEY as string;
 }
 
 if (!supabaseUrl || !supabaseAnonKey) {
