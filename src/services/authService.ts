@@ -20,7 +20,7 @@ export function useAuth() {
             }
         };
 
-        fetchSession();
+        void fetchSession();
 
         const { data: subscription } = supabase.auth.onAuthStateChange(
             (event: AuthChangeEvent, session: Session | null) => {
