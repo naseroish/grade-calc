@@ -26,7 +26,7 @@ export default function Stat() {
         console.log('No user')
       }
     }
-    fetchStats()
+    void fetchStats()
   }, [])
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function Stat() {
         console.log('No user')
       }
     }
-    fetchStats()
+    void fetchStats()
   }, [])
 
   useEffect(() => {
@@ -68,10 +68,11 @@ export default function Stat() {
         console.log('No user')
       }
     }
-    fetchStats()
+    void fetchStats()
   }, [])
 
   return (
+  <div className="flex flex-col w-full border-opacity-50">
     <div className="stats shadow ">
 
       <div className="stat">
@@ -99,5 +100,21 @@ export default function Stat() {
       </div>
 
     </div>
+
+    <div className="divider">OR</div>
+
+    <div className="grid">
+        <div className="card w-52 bg-base-100 shadow-xl image-full">
+          
+          <div className="card-body">
+            <h3 className="card-title">Modules</h3>
+            <p>Total Modules is</p>
+            <div className="card-actions justify-end text-3xl font-bold">
+              5
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
   );
 }

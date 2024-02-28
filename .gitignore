@@ -24,5 +24,8 @@ dist-ssr
 *.sw?
 
 # keys and env
-.env
 .env.local
+
+#github
+.github/*
+*.github/*
