@@ -26,10 +26,10 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="home" element={session ? <HomePage /> : <Navigate to="/login" />}>
-          <Route path='modules' element={session ? <Modules /> : <Navigate to="/login" />} />
-          <Route path='grades' element={session ? <Grades /> : <Navigate to="/login" />} />
-        </Route>
+        <Route path="/home" element={session ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path='/modules' element={session ? <Modules /> : <Navigate to="/login" />} />
+        <Route path='grades' element={session ? <Grades /> : <Navigate to="/login" />} />
+
         <Route path='' element={!session ? <Landing /> : <Navigate to="/home" />}/>
         <Route path='login' element={<Login />} /> 
       </Routes>

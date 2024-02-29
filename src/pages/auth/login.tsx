@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from '../HomePage';
 import { useAuth } from '../../services/authService';
 import { supabase } from '../../services/supabaseConfig';
+import Modules from '../ModulesPage';
 
 export default function Login() {
     const session = useAuth();
@@ -38,6 +39,8 @@ export default function Login() {
             <Routes>
                 <Route path='/' element={<Navigate to='/home' replace />} />
                 <Route path='/home' element={<HomePage />} />
+                <Route path='/modules' element={<Modules />} />
+                
             </Routes>
         );
     }
