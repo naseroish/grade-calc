@@ -1,21 +1,37 @@
+import { useEffect, useState } from 'react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from '../HomePage';
-import { useAuth } from '../../services/authService';
-import { supabase } from '../../services/supabaseConfig';
-import Modules from '../ModulesPage';
+import { supabase} from '../../services/supabaseConfig';
+import { Session } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
-    const session = useAuth();
+function Login() {
+  
+  const [session, setSession] = useState<Session | null>()
+  const navigate = useNavigate();
 
-    if (!session) {
-        return(
-        <div  className="mx-auto max-w-md py-16 sm:py-16 lg:py-16">
-            <Auth supabaseClient={supabase}
-                appearance={{
-                    theme: ThemeSupa,
-                    variables: {
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    void supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      setSession(session)
+    })
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
+      setSession(session)
+    })
+  }, [])
+
+  return (
+    <>
+            {
+              !session ? <>
+                <div className="mx-auto max-w-md py-16 sm:py-16 lg:py-16">
+                  <Auth supabaseClient={supabase}
+                    appearance={{
+                      theme: ThemeSupa,
+                      variables: {
                         default: {
                           colors: {
                             brand: '#a991f7',
@@ -26,22 +42,18 @@ export default function Login() {
                           space: {
                             inputPadding: '10px 15px',
                           },
-                          
+
                         },
                       },
-                    
-                }} />
-        </div>
-        );
-         
-    } else {
-        return (
-            <Routes>
-                <Route path='/' element={<Navigate to='/home' replace />} />
-                <Route path='/home' element={<HomePage />} />
-                <Route path='/modules' element={<Modules />} />
-                
-            </Routes>
-        );
-    }
+
+                    }} />
+                </div>
+              </> : <>
+                {navigate("/dashboard")}
+              </>
+            }
+    </>
+  );
 }
+
+export default Login;

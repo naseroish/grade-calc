@@ -2,7 +2,9 @@ import '../App.css'
 import Footer from '../components/Footer';
 import HomeNav from '../components/HomeNav';
 
+
 export default function Modules() {
+
     return (
         <div className='page-container'>
             <HomeNav />

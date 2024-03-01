@@ -35,7 +35,7 @@ export default function Grades() {
 
         setGrades(grades as Grades[]);
         }
-        getGrades();
+        void getGrades();
 
     }, []);
 
