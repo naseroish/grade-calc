@@ -1,39 +1,61 @@
-import { useState, useEffect } from 'react';
+import './App.css';
 import HomePage from './pages/HomePage';
-import Landing from './pages/Landing';
-import { Route, Routes, Navigate } from 'react-router';
+// import Landing from './pages/Landing';
+import { Route, Routes } from 'react-router-dom';
 import Login from './pages/auth/login';
-import { useAuth } from './services/authService';
 import Modules from './pages/ModulesPage';
 import Grades from './pages/GradesPage';
-
-import './App.css';
+import { AuthProvider } from './services/authService';
+import ProtectedRoute from './components/ProtectedRoute';
+import Landing from './pages/Landing';
 
 function App() {
-  const session = useAuth();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (session !== undefined) {
-      setLoading(false);
-    }
-  }, [session]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <>
+    <AuthProvider>
       <Routes>
-        <Route path="home" element={session ? <HomePage /> : <Navigate to="/login" />}>
-          <Route path='modules' element={session ? <Modules /> : <Navigate to="/login" />} />
-          <Route path='grades' element={session ? <Grades /> : <Navigate to="/login" />} />
-        </Route>
-        <Route path='' element={!session ? <Landing /> : <Navigate to="/home" />}/>
-        <Route path='login' element={<Login />} /> 
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              < HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="modules"
+          element={
+            <ProtectedRoute>
+              <Modules />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="grades"
+          element={
+            <ProtectedRoute>
+              <Grades />
+            </ProtectedRoute>}
+        />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* example of route with sub routes useful for spesfic module page or page belong to parent page*/}
+        {/* <Route
+                path="blog"
+                element={
+                  <ProtectedRoute>
+                    <BlogLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<BlogPostsPage />} />
+                <Route path=":id" element={<PostDetailPage />} />
+              </Route> */}
+
       </Routes>
-    </>
+
+    </AuthProvider>
   );
 }
 

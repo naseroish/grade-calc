@@ -11,20 +11,23 @@ const HomeNav = () => {
     }, []);
     //dark mode toggle
     const toggleTheme = () => {
-        const newTheme = theme === 'mytheme' ? 'night' : 'mytheme';
+        const newTheme = theme === 'winter' ? 'night' : 'winter';
         document.documentElement.setAttribute('data-theme', newTheme);
         setTheme(newTheme);
     };
 
     //tailwindcss dark mode
     // const theme = document.documentElement.getAttribute('data-theme');
-    const isDarkTheme = theme === 'dark' || theme === 'night';
-    const isLightTheme = theme === 'light' || theme === 'mytheme';
+    const isDarkTheme =  theme === 'night';
+    const isLightTheme = theme === 'winter';
 
     //supabase logout
-    const Logout = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) console.log('Error logging out:', error.message);
+    const Logout = () => {
+        const logout = async () => {
+            const { error } = await supabase.auth.signOut();
+            if (error) console.log('Error logging out:', error.message);
+        };
+        void logout();
     };
 
     return (
@@ -94,12 +97,12 @@ const HomeNav = () => {
                     </li>
                     <li>
                         <details>
-                            <summary className='text-center' >
+                            <summary className='text-center'>
                                 Account
                             </summary>
                             <ul className="p-2 bg-base-100 rounded-t-none">
-                                <li><a >Profile</a></li>
-                                <li><a onClick={Logout} >Signout</a></li>
+                                <li><a>Profile</a></li>
+                                <li><a onClick={Logout}>Signout</a></li>
                             </ul>
                         </details>
                     </li>

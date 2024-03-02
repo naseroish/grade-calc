@@ -4,6 +4,7 @@ import HomeNav from '../components/HomeNav';
 
 
 export default function Grades() {
+
     return (
         <div className='page-container'>
             <HomeNav />
