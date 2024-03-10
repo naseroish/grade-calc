@@ -3,11 +3,10 @@ import HomePage from './pages/HomePage';
 // import Landing from './pages/Landing';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/auth/login';
-import Modules from './pages/ModulesPage';
-import Grades from './pages/GradesPage';
 import { AuthProvider } from './services/authService';
 import ProtectedRoute from './components/ProtectedRoute';
 import Landing from './pages/Landing';
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -22,21 +21,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="modules"
-          element={
-            <ProtectedRoute>
-              <Modules />
-            </ProtectedRoute>
-          }
-        />
-        <Route 
-          path="grades"
-          element={
-            <ProtectedRoute>
-              <Grades />
-            </ProtectedRoute>}
-        />
+        <Route path='/profile' element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
 

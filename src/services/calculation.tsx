@@ -3,7 +3,7 @@ import { UserData } from "./types";
 export function calculateOverallAverageGrade(userData: UserData) : number {
     let totalGrade = 0;
     let totalWeight = 0;
-    for (const year of userData.years) {
+    for (const year of userData.year) {
         for (const module of userData.modules) {
             if (module.yearId === year.id) {
                 for (const assignment of userData.assignments) {

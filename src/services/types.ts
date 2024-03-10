@@ -1,6 +1,6 @@
 //types
 
-interface Year {
+interface Level {
     id: string;
     name: string;
     credits: number;
@@ -28,7 +28,7 @@ interface Assignment {
 }
 
 interface UserData {
-    years: Year[];
+    year: Level[];
     modules: Module[];
     assignments: Assignment[];
 }
@@ -39,4 +39,4 @@ interface User {
     email: string;
 }
 
-export type { Year, Module, Assignment, UserData, User };
+export type { Level, Module, Assignment, UserData, User };

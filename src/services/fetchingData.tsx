@@ -4,32 +4,36 @@ import { UserData } from './types';
 
 //fetch all the data for the user
 export async function fetchUserData(userId: string) {
+    if (!userId) {
+        console.error('No user id provided');
+        return;
+    }
     //get all the years for the user
-    const { data: years, error: yearsError } = await supabase
-        .from('years')
+    const { data: year, error: yearsError } = await supabase
+        .from('year')
         .select('*')
-        .eq('userId', userId);
+        .eq('user_id', userId);
     if (yearsError) {
         console.error(yearsError);
         return;
     }
     //get all the modules for the user
     const { data: modules, error: modulesError } = await supabase
-        .from('modules')
+        .from('module')
         .select('*')
-        .eq('userId', userId);
+        .eq('user_id', userId);
     if (modulesError) {
         console.error(modulesError);
         return;
     }
     //get all the assignments for the user
     const { data: assignments, error: assignmentsError } = await supabase
-        .from('assignments')
+        .from('Assignment')
         .select('*')
-        .eq('userId', userId);
+        .eq('user_id', userId);
     if (assignmentsError) {
         console.error(assignmentsError);
         return;
     }
-    return { years, modules, assignments } as UserData;
+    return { year, modules, assignments } as UserData;
 }
