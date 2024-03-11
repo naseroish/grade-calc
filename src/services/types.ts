@@ -12,7 +12,7 @@ interface Level {
 interface Module {
     id: string;
     name: string;
-    credits: number;
+    credit: number;
     yearId: string;
     userId: string;
 }

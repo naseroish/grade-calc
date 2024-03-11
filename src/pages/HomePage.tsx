@@ -11,6 +11,7 @@ import { Tab } from '@headlessui/react';
 import Levels from '../components/Levels';
 import { Level } from '../services/types';
 import ModuleDialog from '../components/ModuleDialog';
+import { optionButton } from '../components/optionButton'; // Import the optionButton component
 
 export default function Home() {
     const [user, setUser] = useState<User | null>(null);
@@ -33,7 +34,7 @@ export default function Home() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; // Render loading indicator
+        return <span className="loading loading-spinner loading-lg"></span>; // Render loading indicator
     }
 
 
@@ -66,16 +67,22 @@ export default function Home() {
                                     }
                                 >{level.name}</Tab>
                             ))}
-                            <button className='bg-neutral flex inset-y-0 right-0 py-1 px-2 ml-2 rounded-xl text-neutral-content hover:bg-white/[0.12] hover:text-white'>
-                                options
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                                    <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                                </svg>
-                            </button>
+                            <div className="dropdown">
+                                <div tabIndex={0} role="button" className="btn ml-4">options
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+
+                                </div>
+                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    <li><a>Add Level</a></li>
+                                    <li><a>Edit Level</a></li>
+                                    <li><a>Delete Level</a></li>
+                                </ul>
+                            </div>
                         </div>
 
                     </Tab.List>
-
 
 
                     <Tab.Panels className="mt-2 px-10">
@@ -83,7 +90,7 @@ export default function Home() {
                         {levels.map((level: Level, index: number) => (
                             <Tab.Panel
                                 key={index}
-                                className="rounded-xl bg-neutral p-3 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                                className="rounded-xl bg-neutral p-3"
                             >
                                 <Levels levelId={parseInt(level.id)} />
                                 <div className="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">

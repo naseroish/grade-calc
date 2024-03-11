@@ -11,7 +11,7 @@ const HomeNav = () => {
     }, []);
     //dark mode toggle
     const toggleTheme = () => {
-        const newTheme = theme === 'winter' ? 'night' : 'winter';
+        const newTheme = theme === 'nord' ? 'night' : 'nord';
         document.documentElement.setAttribute('data-theme', newTheme);
         setTheme(newTheme);
     };
@@ -19,7 +19,7 @@ const HomeNav = () => {
     //tailwindcss dark mode
     // const theme = document.documentElement.getAttribute('data-theme');
     const isDarkTheme =  theme === 'night';
-    const isLightTheme = theme === 'winter';
+    const isLightTheme = theme === 'nord';
 
     //supabase logout
     const Logout = () => {
@@ -33,13 +33,13 @@ const HomeNav = () => {
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
-                <a className='btn btn-ghost text-xl'>
+                <a className='btn btn-ghost text-xl' href='/dashboard'>
                     {isDarkTheme ? (
-                        <img src='./src/assets/gradiancewhite.png' className='h-12'></img>
+                        <img src='src/assets/gradiancewhite.png' className='h-12'></img>
                     ) : isLightTheme ? (
-                        <img src='./src/assets/gradianceblack.png' className='h-12'></img>
+                        <img src='src/assets/gradianceblack.png' className='h-12'></img>
                     ) : (
-                        <img src='./src/assets/gradiancewhite.png' className='h-12'></img>
+                        <img src='src/assets/gradiancewhite.png' className='h-12'></img>
                     )}
                 </a>
             </div>

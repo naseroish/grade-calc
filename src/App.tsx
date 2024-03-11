@@ -7,20 +7,21 @@ import { AuthProvider } from './services/authService';
 import ProtectedRoute from './components/ProtectedRoute';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
+import Module from './components/Module';
 
 function App() {
 
   return (
     <AuthProvider>
       <Routes>
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              < HomePage />
-            </ProtectedRoute>
-          }
-        />
+      <Route path="/dashboard/*" element={
+          <ProtectedRoute>
+            <Routes>
+              <Route index element={<HomePage />} />
+              <Route path='/levels/:levelId/modules/:moduleId' element={<Module />} />
+            </Routes>
+          </ProtectedRoute>
+        } />
         <Route path='/profile' element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
