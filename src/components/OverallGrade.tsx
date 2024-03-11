@@ -30,7 +30,7 @@ const OverallAverageGradeComponent = ({ userId }: { userId: User['id'] }) => {
     }, [userId]); // Run effect when userId changes
 
     return (
-        <div>
+        <div className='bg-neutral py-2 px-10 rounded-md'>
             <h2>Overall Average Grade</h2>
             {overallAverageGrade !== null ? (
                 <p>{`Overall average grade: ${overallAverageGrade.toFixed(2)}`}</p>

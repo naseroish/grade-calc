@@ -35,7 +35,7 @@ function Levels({ levelId }: LevelsProps) {
         <div>
         {modules.map((module) => (
             <Link key={module.id} to={`/dashboard/levels/${levelId}/modules/${module.id}`}>
-                <div className='ring-offset-blue-400 focus:outline-none focus:ring-2'>
+                <div className='ring-offset-blue-400 focus:outline-none focus:ring-2 text-xl text-neutral-content'>
                     {module.name}
                 </div>
             </Link>
