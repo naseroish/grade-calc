@@ -1,7 +1,7 @@
 // Levels.tsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Module } from '../services/types';
+import { ModuleType } from '../services/types';
 import { supabase } from '../services/supabaseConfig';
 
 type LevelsProps = {
@@ -9,7 +9,7 @@ type LevelsProps = {
 };
 
 function Levels({ levelId }: LevelsProps) {
-    const [modules, setModules] = useState<Module[]>([]);
+    const [modules, setModules] = useState<ModuleType[]>([]);
 
     useEffect(() => {
         // Fetch the modules for the specific level from supabase
