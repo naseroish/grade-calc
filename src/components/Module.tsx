@@ -2,15 +2,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../services/supabaseConfig';
-import { Module, Assignment } from '../services/types';
+import { ModuleType, Assignment } from '../services/types';
 import HomeNav from './HomeNav';
 import AssignmentDialog from './AssignmentDialog';
 import { User } from '@supabase/supabase-js';
 
 function Module() {
-const { levelId, moduleId } = useParams();
+  const { moduleId = '' } = useParams();
 const [user, setUser] = useState<User | null>(null);
-const [moduleData, setModuleData] = useState<Module | null>(null);
+const [moduleData, setModuleData] = useState<ModuleType | null>(null);
 const [assignments, setAssignments] = useState<Assignment[]>([]);
 
 useEffect(() => {
@@ -26,7 +26,7 @@ useEffect(() => {
             if (error) {
                 console.error('Error fetching module data:', error);
             } else {
-                setModuleData(data && data[0]);
+                setModuleData(data[0] as ModuleType);
             }
         }
     }
@@ -50,10 +50,10 @@ useEffect(() => {
     
 }, [moduleId]);
 
-//filtter assignment by type
-const filterAssignmentsByType = (type: string) => {
-    return assignments.filter((assignment) => assignment.type === type);
-};
+// //filtter assignment by type
+// const filterAssignmentsByType = (type: string) => {
+//     return assignments.filter((assignment) => assignment.type === type);
+// };
 
 
 if (!moduleData) {

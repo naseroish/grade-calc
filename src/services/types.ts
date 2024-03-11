@@ -9,7 +9,7 @@ interface Level {
 
 }
 
-interface Module {
+interface ModuleType {
     id: string;
     name: string;
     credit: number;
@@ -29,7 +29,7 @@ interface Assignment {
 
 interface UserData {
     year: Level[];
-    modules: Module[];
+    modules: ModuleType[];
     assignments: Assignment[];
 }
 
@@ -39,4 +39,4 @@ interface User {
     email: string;
 }
 
-export type { Level, Module, Assignment, UserData, User };
+export type { Level, ModuleType, Assignment, UserData, User };

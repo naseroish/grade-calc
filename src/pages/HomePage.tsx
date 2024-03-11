@@ -11,7 +11,6 @@ import { Tab } from '@headlessui/react';
 import Levels from '../components/Levels';
 import { Level } from '../services/types';
 import ModuleDialog from '../components/ModuleDialog';
-import { optionButton } from '../components/optionButton'; // Import the optionButton component
 
 export default function Home() {
     const [user, setUser] = useState<User | null>(null);
