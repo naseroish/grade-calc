@@ -10,7 +10,8 @@ import { User } from '@supabase/supabase-js';
 import { Tab } from '@headlessui/react';
 import Levels from '../components/Levels';
 import { Level } from '../services/types';
-import ModuleDialog from '../components/ModuleDialog';
+import ModuleDialog from '../components/Dialog/ModuleDialog';
+import LevelDialog from '../components/Dialog/LevelDialog';
 
 export default function Home() {
     const [user, setUser] = useState<User | null>(null);
@@ -46,15 +47,15 @@ export default function Home() {
             <div className='content-container flex items-center justify-left  py-2 px-10'>
                 <h3 className='text-2xl font-bold'>Overview</h3>
             </div>
-            <div className='grid md:grid-cols-3 gap-4 px-16 text-neutral-content'>
+            <div className='grid md:grid-cols-3 gap-4 px-8 md:px-16 text-neutral-content'>
                 <OverallAverageGradeComponent userId={user?.id.toString() || ''} />
                 <OverallAverageGradeComponent userId={user?.id.toString() || ''} />
                 <OverallAverageGradeComponent userId={user?.id.toString() || ''} />
             </div>
-            <div className='px-10 py-2'>
+            <div className='md:px-10 py-2'>
                 <Tab.Group>
-                    <h3 className='text-2xl font-bold'>Levels</h3>
-                    <Tab.List className='flex  rounded-xl bg-neutral  px-12 mx-7'>
+                    <h3 className='text-2xl font-bold px-10 py-2'>Levels</h3>
+                    <Tab.List className='flex  rounded-xl bg-neutral px-6  md:px-12 mx-7'>
                         <div className='flex space-x-1 py-2'>
                             {levels.map((level: Level, index: number) => (
                                 <Tab
@@ -74,7 +75,7 @@ export default function Home() {
 
                                 </div>
                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li><a>Add Level</a></li>
+                                    <li><LevelDialog userId={user?.id.toString() || ''} /></li>
                                     <li><a>Edit Level</a></li>
                                     <li><a>Delete Level</a></li>
                                 </ul>
@@ -84,7 +85,7 @@ export default function Home() {
                     </Tab.List>
 
 
-                    <Tab.Panels className="mt-2 px-10">
+                    <Tab.Panels className="mt-2 px-8 md:px-10">
                         <h3 className='text-2xl font-bold py-2'>Modules</h3>
                         {levels.map((level: Level, index: number) => (
                             <Tab.Panel

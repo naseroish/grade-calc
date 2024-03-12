@@ -1,7 +1,7 @@
 // ModuleDialog.tsx
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { supabase } from '../services/supabaseConfig';
+import { supabase } from '../../services/supabaseConfig';
 
 interface ModuleDialogProps {
     moduleId: string;

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../services/supabaseConfig';
 import { ModuleType, Assignment } from '../services/types';
 import HomeNav from './HomeNav';
-import AssignmentDialog from './AssignmentDialog';
+import AssignmentDialog from './Dialog/AssignmentDialog';
 import { User } from '@supabase/supabase-js';
 
 function Module() {
@@ -63,10 +63,10 @@ if (!moduleData) {
   return (
     <div className='flex-1 max-h-full justify-center max-w-7xl flex-col mx-auto overflow-hidden overflow-y-scroll'>
       <HomeNav />
-      <div className='content-container flex items-center justify-left  py-2 px-10'>
+      <div className='content-container flex items-center justify-left  py-2 px-6 md:px-10'>
                 <h3 className='text-2xl font-bold'>Overview</h3>
       </div>
-      <div className='flex justify-evenly mx-16 p-2 bg-neutral text-neutral-content rounded-md'>
+      <div className='flex justify-evenly mx-8 md:mx-16 p-2 bg-neutral text-neutral-content rounded-md'>
         <h1 className='text-xl'>{moduleData.name}</h1>
         <h2 className='text-xl'>{moduleData.credit}</h2>
       </div>
@@ -84,12 +84,12 @@ if (!moduleData) {
         </div>
       </div> */}
 
-      <div className='mt-5 px-10'>
-        <div className='flex justify-between mr-10'>
+      <div className='mt-5 px-6 md:px-10'>
+        <div className='flex justify-between mr-6 md:mr-10'>
           <h3 className='text-2xl font-bold'>Assignments</h3>
           <AssignmentDialog moduleId={moduleId} userId={user?.id.toString() || ''}  />
           </div>
-        <div className='grid md:grid-cols-3 gap-4 px-14 text-neutral-content'>
+        <div className='grid md:grid-cols-3 gap-4 md:px-14 text-neutral-content pt-2'>
           {assignments.map((assignment: Assignment, index: number) => (
             <div key={index} className='bg-neutral p-4 rounded-lg'>
               <h3>{assignment.name}</h3>
