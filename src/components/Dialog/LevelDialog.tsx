@@ -5,9 +5,10 @@ import { supabase } from '../../services/supabaseConfig';
 
 interface LevelDialogProps {
     userId: string;
+    fetchData: () => Promise<void>;
 }
 
-export default function LevelDialog({ userId }: LevelDialogProps) {
+export default function LevelDialog({ userId, fetchData }: LevelDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [levelWeight, setLevelWeight] = useState('');
     const [levelName, setLevelName] = useState('');
@@ -15,7 +16,7 @@ export default function LevelDialog({ userId }: LevelDialogProps) {
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
 
-    const addModule = async (): Promise<null> => {
+    const addLevel = async (): Promise<null> => {
         try {
             const { data, error } = await supabase
                 .from('year')
@@ -28,7 +29,8 @@ export default function LevelDialog({ userId }: LevelDialogProps) {
                 return null;
             }
             closeDialog();
-            
+            await fetchData();
+
             return data;
         } catch (error) {
             console.error('Unexpected error: ', error);
@@ -86,7 +88,7 @@ export default function LevelDialog({ userId }: LevelDialogProps) {
                                     </label>
                                 </div>
                                 <div className="px-6 py-4 bg-base-300 flex justify-end">
-                                    <button onClick={addModule} className="px-4 py-2 text-sm font-medium text-white bg-secondary rounded-md hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-3">
+                                    <button onClick={addLevel} className="px-4 py-2 text-sm font-medium text-white bg-secondary rounded-md hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-3">
                                         Add
                                     </button>
                                     <button onClick={closeDialog} className="px-4 py-2 text-sm font-medium  bg-neutral rounded-md hover:bg-white/[0.12] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">

@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import '../App.css'
 import Footer from '../components/Footer';
 import HomeNav from '../components/HomeNav';
@@ -10,7 +9,6 @@ import { User } from '@supabase/supabase-js';
 import { Tab } from '@headlessui/react';
 import Levels from '../components/Levels';
 import { Level } from '../services/types';
-import ModuleDialog from '../components/Dialog/ModuleDialog';
 import LevelDialog from '../components/Dialog/LevelDialog';
 
 export default function Home() {
@@ -18,20 +16,21 @@ export default function Home() {
     const [levels, setLevels] = useState<Level[]>([]);
     const [loading, setLoading] = useState(true); // Add loading state
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
 
-            if (user) {
-                const { data: levels } = await supabase.from('year').select('*');
-                setLevels(levels || []);
-            }
-            setLoading(false);
-        };
+    const fetchData = useCallback(async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
 
-        void fetchData();
+        if (user) {
+            const { data: levels } = await supabase.from('year').select('*');
+            setLevels(levels || []);
+        }
+        setLoading(false);
     }, []);
+
+    useEffect(() => {
+        void fetchData();
+    }, [fetchData]);
 
     if (loading) {
         return <span className="loading loading-spinner loading-lg"></span>; // Render loading indicator
@@ -75,7 +74,7 @@ export default function Home() {
 
                                 </div>
                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li><LevelDialog userId={user?.id.toString() || ''} /></li>
+                                    <li><LevelDialog userId={user?.id.toString() || ''} fetchData={fetchData} /></li>
                                     <li><a>Edit Level</a></li>
                                     <li><a>Delete Level</a></li>
                                 </ul>
@@ -92,10 +91,7 @@ export default function Home() {
                                 key={index}
                                 className="rounded-xl bg-neutral p-3"
                             >
-                                <Levels levelId={parseInt(level.id)} />
-                                <div className="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
-                                    <ModuleDialog levelId={level.id} userId={user?.id.toString() || ''} /> {/* Pass the level id directly */}
-                                </div>
+                                <Levels levelId={parseInt(level.id)} userId={user?.id.toString() || ''} />
                             </Tab.Panel>
                         ))}
                     </Tab.Panels>

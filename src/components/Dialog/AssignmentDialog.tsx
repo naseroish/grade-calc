@@ -6,9 +6,10 @@ import { supabase } from '../../services/supabaseConfig';
 interface ModuleDialogProps {
     moduleId: string;
     userId: string;
+    onNewAssignment: () => Promise<void>;
 }
 
-export default function AssignmentDialog({ moduleId, userId }: ModuleDialogProps) {
+export default function AssignmentDialog({ moduleId, userId, onNewAssignment }: ModuleDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [assignmentName, setAssignmentName] = useState('');
     const [assignmentWeight, setAssignmentWeight] = useState('');
@@ -22,7 +23,7 @@ export default function AssignmentDialog({ moduleId, userId }: ModuleDialogProps
             const { data, error } = await supabase
                 .from('Assignment')
                 .insert([
-                    { user_id: userId, name: assignmentName, module_id: moduleId, weight: assignmentWeight, grade: assignmentGrade}
+                    { user_id: userId, name: assignmentName, module_id: moduleId, weight: assignmentWeight, grade: assignmentGrade }
                 ]);
 
             if (error) {
@@ -30,13 +31,9 @@ export default function AssignmentDialog({ moduleId, userId }: ModuleDialogProps
                 return null;
             }
             closeDialog();
+            await onNewAssignment();
             //add toaster with success message
-            //refresh modules
-            void supabase.from('Assignment').select('*').eq('module_id', moduleId).then(({ data }) => {
-                console.log(data);
-            }
-            );
-            
+
             return data;
         } catch (error) {
             console.error('Unexpected error: ', error);

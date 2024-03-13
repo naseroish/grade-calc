@@ -4,11 +4,12 @@ import { Fragment, useState } from 'react';
 import { supabase } from '../../services/supabaseConfig';
 
 interface ModuleDialogProps {
-    levelId: string;
+    levelId: number;
     userId: string;
+    fetchData: () => Promise<void>;
 }
 
-export default function ModuleDialog({ levelId, userId }: ModuleDialogProps) {
+export default function ModuleDialog({ levelId, userId, fetchData }: ModuleDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [moduleName, setModuleName] = useState('');
     const [moduleCredit, setModuleCredit] = useState('');
@@ -29,13 +30,9 @@ export default function ModuleDialog({ levelId, userId }: ModuleDialogProps) {
                 return null;
             }
             closeDialog();
+            await fetchData();
             //add toaster with success message
-            //refresh modules
-            void supabase.from('module').select('*').eq('year_id', levelId).then(({ data }) => {
-                console.log(data);
-            }
-            );
-            
+
             return data;
         } catch (error) {
             console.error('Unexpected error: ', error);
