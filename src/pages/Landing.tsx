@@ -23,12 +23,13 @@ export default function Landing() {
   }, [])
 
   return (
-    <>
+    <div className="overflow-hidden h-screen bg-white">
       {
         !session ? <>
-          <div className="bg-white">
-            <Header />
+          <div className="">
+            
             <div className="relative isolate px-6 pt-14 lg:px-8">
+            <Header />
               <div
                 className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                 aria-hidden="true"
@@ -41,7 +42,7 @@ export default function Landing() {
                   }}
                 />
               </div>
-              <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+              <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:py-32">
                 <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                 </div>
                 <div className="text-center">
@@ -62,6 +63,6 @@ export default function Landing() {
           </div>
         </> : <>{navigate("/dashboard")}</>
       }
-    </>
+    </div>
   );
 }
