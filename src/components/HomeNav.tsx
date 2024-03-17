@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../services/supabaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 const HomeNav = () => {
     //dark mode state
     const [theme, setTheme] = useState<string>('');
+    const navigate = useNavigate();
     //get current theme
     useEffect(() => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -28,6 +30,11 @@ const HomeNav = () => {
             if (error) console.log('Error logging out:', error.message);
         };
         void logout();
+    };
+
+    //profile page
+    const Profile = () => {
+        navigate('/profile');
     };
 
     return (
@@ -67,7 +74,7 @@ const HomeNav = () => {
                                 Account
                             </summary>
                             <ul className="p-2 bg-base-100 rounded-t-none">
-                                <li><a>Profile</a></li>
+                                <li><a onClick={Profile}>Profile</a></li>
                                 <li><a onClick={Logout}>Signout</a></li>
                             </ul>
                         </details>
