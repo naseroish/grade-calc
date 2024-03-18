@@ -3,7 +3,6 @@
 interface Level {
     id: string;
     name: string;
-    credits: number;
     weight: number;
     userId: string;
 
@@ -20,7 +19,6 @@ interface ModuleType {
 interface Assignment {
     id: string;
     name: string;
-    type: string;
     weight: number;
     grade: number;
     moduleId: string;
@@ -39,4 +37,13 @@ interface User {
     email: string;
 }
 
-export type { Level, ModuleType, Assignment, UserData, User };
+// Extend Level and ModuleType to include assignments and modules properties
+interface LevelWithModules extends Level {
+    modules: ModuleTypeWithAssignments[];
+}
+
+interface ModuleTypeWithAssignments extends ModuleType {
+    assignments: Assignment[];
+}
+
+export type { Level, ModuleType, Assignment, UserData, User, LevelWithModules, ModuleTypeWithAssignments};

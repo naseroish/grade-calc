@@ -1,39 +1,54 @@
 import { supabase } from './supabaseConfig';
+import { Assignment, LevelWithModules, ModuleTypeWithAssignments } from './types';
 
-import { UserData } from './types';
 
-//fetch all the data for the user
-export async function fetchUserData(userId: string) {
+
+export async function fetchUserData(userId: string): Promise<LevelWithModules[]> {
     if (!userId) {
-        console.error('No user id provided');
-        return;
+        throw new Error('No user id provided');
     }
-    //get all the years for the user
-    const { data: year, error: yearsError } = await supabase
+
+    // Fetch years
+    const { data: years, error: yearsError } = await supabase
         .from('year')
         .select('*')
         .eq('user_id', userId);
-    if (yearsError) {
-        console.error(yearsError);
-        return;
+    if (yearsError) throw new Error(yearsError.message);
+
+    // Add type assertion here
+    const typedYears = years as LevelWithModules[];
+
+    // Iterate over years to fetch modules for each year
+    for (const year of typedYears) {
+        const { data: modules, error: modulesError } = await supabase
+            .from('module')
+            .select('*')
+            .eq('year_id', year.id)
+            .eq('user_id', userId);
+        if (modulesError) throw new Error(modulesError.message);
+
+        // Add type assertion here
+        const typedModules = modules as ModuleTypeWithAssignments[];
+
+        // For each module, fetch its assignments
+        for (const module of typedModules) {
+            const { data: assignments, error: assignmentsError } = await supabase
+                .from('Assignment')
+                .select('*')
+                .eq('module_id', module.id)
+                .eq('user_id', userId);
+            if (assignmentsError) throw new Error(assignmentsError.message);
+
+            // Add type assertion here
+            const typedAssignments = assignments as Assignment[];
+
+            // Attach assignments to their module
+            module.assignments = typedAssignments;
+        }
+
+        // Attach modules to their year
+        year.modules = typedModules;
     }
-    //get all the modules for the user
-    const { data: modules, error: modulesError } = await supabase
-        .from('module')
-        .select('*')
-        .eq('user_id', userId);
-    if (modulesError) {
-        console.error(modulesError);
-        return;
-    }
-    //get all the assignments for the user
-    const { data: assignments, error: assignmentsError } = await supabase
-        .from('Assignment')
-        .select('*')
-        .eq('user_id', userId);
-    if (assignmentsError) {
-        console.error(assignmentsError);
-        return;
-    }
-    return { year, modules, assignments } as UserData;
+
+    return typedYears;
 }

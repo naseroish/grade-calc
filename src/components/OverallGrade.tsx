@@ -1,44 +1,45 @@
-import { useEffect, useState } from 'react';
-import { fetchUserData } from '../services/fetchingData';
-import { calculateOverallAverageGrade } from '../services/calculation';
-import { User } from '../services/types';
+import React, { useEffect, useState } from 'react';
+import { fetchUserData } from '../services/fetchingData'; // Ensure the path is correct
+import { calculateOverallGrade } from '../services/calculation';  // Ensure the path is correct
 
-const OverallAverageGradeComponent = ({ userId }: { userId: User['id'] }) => {
-    const [overallAverageGrade, setOverallAverageGrade] = useState(0);
+interface OverallAverageGradeComponentProps {
+  userId: string;
+}
 
-    useEffect(() => {
-        const fetchAndCalculateAverageGrade = async () => {
-            try {
-                // Fetch user data
-                const userData = await fetchUserData(String(userId));
+const OverallAverageGradeComponent: React.FC<OverallAverageGradeComponentProps> = ({ userId }) => {
+  const [overallAverageGrade, setOverallAverageGrade] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
-                // Check if userData is defined
-                if (userData) {
-                    // Calculate overall average grade
-                    const averageGrade = calculateOverallAverageGrade(userData);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const userData = await fetchUserData(userId);
+        const calculatedGrade = calculateOverallGrade(userData);
+        setOverallAverageGrade(calculatedGrade);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to fetch user data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                    // Set the overall average grade state
-                    setOverallAverageGrade(averageGrade);
-                }
-            } catch (error: unknown) {
-                console.error('Error fetching or calculating average grade:', (error as Error).message);
-            }
-        };
+    void loadData();
+  }, [userId]);
 
-        // Call the function when the component mounts
-        void fetchAndCalculateAverageGrade();
-    }, [userId]); // Run effect when userId changes
-
-    return (
-        <div className='bg-neutral py-2 px-10 rounded-md'>
-            <h2>Overall Average Grade</h2>
-            {overallAverageGrade !== null ? (
-                <p>{`Overall average grade: ${overallAverageGrade.toFixed(2)}`}</p>
-            ) : (
-                <p>Loading...</p>
-            )}
-        </div>
-    );
+  return (
+    <div className='bg-neutral py-2 px-10 rounded-md'>
+      <h2>Overall Average Grade</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <p>{`Overall average grade: ${overallAverageGrade?.toFixed(2)}`}</p>
+      )}
+    </div>
+  );
 };
 
 export default OverallAverageGradeComponent;
