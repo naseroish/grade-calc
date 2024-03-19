@@ -7,6 +7,8 @@ import HomeNav from './HomeNav';
 import AssignmentDialog from './Dialog/AssignmentDialog';
 import { User } from '@supabase/supabase-js';
 import { calculateModuleGrade } from '../services/calculation';  // Ensure the path is correct
+import EditAssignmentDialog from './Dialog/EditAssignment';
+import DeleteAssignmentDialog from './Dialog/DeleteAssignment';
 
 function Module() {
   const { moduleId = '' } = useParams();
@@ -50,9 +52,12 @@ function Module() {
   useEffect(() => {
     void fetchModuleData();
     void fetchModuleAssignmentData();
+  }, [fetchModuleAssignmentData, fetchModuleData, moduleId]);
+
+  useEffect(() => {
     const calculatedModuleGrade = calculateModuleGrade(assignments);
     setOverallAverageGrade(calculatedModuleGrade);
-  }, [fetchModuleAssignmentData, fetchModuleData, moduleId, assignments]);
+  }, [assignments]);
 
   // //filtter assignment by type
   // const filterAssignmentsByType = (type: string) => {
@@ -99,15 +104,15 @@ function Module() {
               <div className='text-lg flex justify-between pb-2'>
                 <h3 className='text-neutral-content text-xl font-semibold'>{assignment.name}</h3>
                 <div className="dropdown">
-                  <div tabIndex={0} role="button" className="btn btn-xs btn-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  <div tabIndex={0} role="button" className="btn btn-xs btn-circle flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                     </svg>
 
                   </div>
                   <ul tabIndex={0} className=" dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a>Edit</a></li>
-                    <li><a>Delete</a></li>
+                    <li><EditAssignmentDialog assignmentId={assignment.id} assignmentName={assignment.name} assignmentGrade={assignment.grade.toString()} assignmentWeight={assignment.weight.toString()} onEditAssignment={fetchModuleAssignmentData} /></li>
+                    <li><DeleteAssignmentDialog assignmentId={assignment.id} onDeleteAssignment={fetchModuleAssignmentData} /> </li>
                   </ul>
                 </div>
               </div>
