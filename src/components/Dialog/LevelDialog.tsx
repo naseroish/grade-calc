@@ -1,17 +1,26 @@
 // ModuleDialog.tsx
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { supabase } from '../../services/supabaseConfig';
+import { Level } from '../../services/types';
 
 interface LevelDialogProps {
     userId: string;
     fetchData: () => Promise<void>;
+    levels: Level[]; // Add this line
 }
 
-export default function LevelDialog({ userId, fetchData }: LevelDialogProps) {
+export default function LevelDialog({ userId, fetchData, levels }: LevelDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [levelWeight, setLevelWeight] = useState('');
     const [levelName, setLevelName] = useState('');
+
+    // Add this useEffect hook
+    useEffect(() => {
+        if (levels.length === 0) {
+            setIsOpen(true);
+        }
+    }, [levels]);
 
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
@@ -41,9 +50,12 @@ export default function LevelDialog({ userId, fetchData }: LevelDialogProps) {
 
     return (
         <>
-            <a onClick={openDialog}>
-                Add Level
-            </a>
+            <div className='btn btn-secondary text-white btn-sm btn-circle' onClick={openDialog}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+
+            </div>
 
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeDialog}>

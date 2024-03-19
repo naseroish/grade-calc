@@ -1,47 +1,32 @@
-import { UserData } from "./types";
+import { LevelWithModules, ModuleTypeWithAssignments, Assignment } from './types';
 
-export function calculateOverallAverageGrade(userData: UserData) : number {
-    let totalGrade = 0;
-    let totalWeight = 0;
-    for (const year of userData.year) {
-        for (const module of userData.modules) {
-            if (module.yearId === year.id) {
-                for (const assignment of userData.assignments) {
-                    if (assignment.moduleId === module.id) {
-                        totalGrade += assignment.grade * assignment.weight;
-                        totalWeight += assignment.weight;
-                    }
-                }
-            }
-        }
-    }
-    return totalGrade / totalWeight;
-}
+// Calculate the grade for a single module based on its assignments
+export const calculateModuleGrade = (assignments: Assignment[]): number => {
+  let totalWeightedGrade = 0;
+  let totalWeight = 0;
 
-export function calculateAverageGradeForYear(userData: UserData, yearId: string) : number {
-    let totalGrade = 0;
-    let totalWeight = 0;
-    for (const module of userData.modules) {
-        if (module.yearId === yearId) {
-            for (const assignment of userData.assignments) {
-                if (assignment.moduleId === module.id) {
-                    totalGrade += assignment.grade * assignment.weight;
-                    totalWeight += assignment.weight;
-                }
-            }
-        }
-    }
-    return totalGrade / totalWeight;
-}
+  assignments.forEach(({ grade, weight }) => {
+    totalWeightedGrade += grade * weight;
+    totalWeight += weight;
+  });
 
-export function calculateAverageGradeForModule(userData: UserData, moduleId: string) : number {
-    let totalGrade = 0;
-    let totalWeight = 0;
-    for (const assignment of userData.assignments) {
-        if (assignment.moduleId === moduleId) {
-            totalGrade += assignment.grade * assignment.weight;
-            totalWeight += assignment.weight;
-        }
-    }
-    return totalGrade / totalWeight;
-}
+  // Avoid division by zero; if no assignments or weights, return 0
+  return totalWeight === 0 ? 0 : totalWeightedGrade / totalWeight;
+};
+
+// Calculate the overall grade across all levels and modules
+export const calculateOverallGrade = (levels: LevelWithModules[]): number => {
+    let totalWeightedGrade = 0;
+    let totalCreditsAndWeights = 0;
+  
+    levels.forEach((level: LevelWithModules) => {
+      level.modules.forEach((module: ModuleTypeWithAssignments) => {
+        const moduleGrade = calculateModuleGrade(module.assignments);
+        totalWeightedGrade += moduleGrade * module.credit * level.weight;
+        totalCreditsAndWeights += module.credit * level.weight;
+      });
+    });
+  
+    // Avoid division by zero; if no modules or weights, return 0
+    return totalCreditsAndWeights === 0 ? 0 : totalWeightedGrade / totalCreditsAndWeights;
+  };
