@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../services/supabaseConfig';
 import { User } from '@supabase/supabase-js';
 import HomeNav from '../components/HomeNav';
-import { useNavigate } from 'react-router-dom';
+import  DeleteAccountDialog  from '../components/Dialog/DeleteAccount';
 
 export default function Profile() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,31 +17,6 @@ export default function Profile() {
         void fetchData();
         setLoading(false);
     }, []);
-
-    const deleteAccount = async () => {
-        try {
-            const { data: { user }, error: getUserError } = await supabase.auth.getUser();
-    
-            if (getUserError) {
-                console.error('Error fetching user data:', getUserError);
-                alert('Failed to fetch user data.');
-                return;
-            }
-    
-            const { error: deleteError } = await supabase.rpc('delete_user', { user_id: user.id });
-    
-            if (deleteError) {
-                console.error('Error deleting account:', deleteError);
-                alert(`Failed to delete account: ${deleteError.message}`);
-            } else {
-                alert('Account deleted successfully');
-                navigate('/landing');
-            }
-        } catch (error) {
-            console.error('Error deleting account:', error);
-            alert('An unexpected error occurred while deleting your account.');
-        }
-    };
 
     if (loading) {
         return <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
@@ -55,7 +29,7 @@ export default function Profile() {
         <div className='flex-1 max-h-full justify-center max-w-7xl flex-col mx-auto overflow-hidden overflow-y-scroll'>
             <HomeNav />
             <div className='content-container flex items-center justify-center bg-neutral p-10'>
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center text-neutral-content'>
                     {user && user.user_metadata && (
                         <img src={user.user_metadata.avatar_url as string || ''} alt='User avatar' className='h-20 w-20 rounded-full' />
                     )}
@@ -65,12 +39,7 @@ export default function Profile() {
                     {user && (
                         <p className='text-lg mt-2'>{user.email}</p>
                     )}
-                    <button
-                        className='mt-4 bg-blue-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded'
-                        onClick={deleteAccount}
-                    >
-                        Delete Account
-                    </button>
+                    <DeleteAccountDialog userId={user?.id.toString() || ''} />
                 </div>
             </div>
         </div>
