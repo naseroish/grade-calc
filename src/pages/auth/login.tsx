@@ -29,6 +29,7 @@ function Login() {
               !session ? <>
                 <div className="mx-auto max-w-md py-16 sm:py-16 lg:py-16">
                   <Auth supabaseClient={supabase}
+                  providers={['google']}
                     appearance={{
                       theme: ThemeSupa,
                       variables: {
