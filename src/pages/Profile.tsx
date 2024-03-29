@@ -1,9 +1,8 @@
-//Profile page
-
 import { useState, useEffect } from 'react';
 import { supabase } from '../services/supabaseConfig';
 import { User } from '@supabase/supabase-js';
 import HomeNav from '../components/HomeNav';
+import  DeleteAccountDialog  from '../components/Dialog/DeleteAccount';
 
 export default function Profile() {
     const [user, setUser] = useState<User | null>(null);
@@ -30,7 +29,7 @@ export default function Profile() {
         <div className='flex-1 max-h-full justify-center max-w-7xl flex-col mx-auto overflow-hidden overflow-y-scroll'>
             <HomeNav />
             <div className='content-container flex items-center justify-center bg-neutral p-10'>
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center text-neutral-content'>
                     {user && user.user_metadata && (
                         <img src={user.user_metadata.avatar_url as string || ''} alt='User avatar' className='h-20 w-20 rounded-full' />
                     )}
@@ -40,6 +39,7 @@ export default function Profile() {
                     {user && (
                         <p className='text-lg mt-2'>{user.email}</p>
                     )}
+                    <DeleteAccountDialog userId={user?.id.toString() || ''} />
                 </div>
             </div>
         </div>

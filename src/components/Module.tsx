@@ -17,8 +17,12 @@ function Module() {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [overallAverageGrade, setOverallAverageGrade] = useState<number | null>(null);
 
+  const [moduleLoading, setModuleLoading] = useState<boolean>(true);
+  const [assignmentLoading, setAssignmentLoading] = useState<boolean>(true);
+
 
   const fetchModuleData = useCallback(async () => {
+    setModuleLoading(true);
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
     if (user) {
@@ -33,10 +37,12 @@ function Module() {
         setModuleData(data[0] as ModuleType);
       }
     }
+    setModuleLoading(false);
   }, [moduleId]);
 
   //fetch module assignment data
   const fetchModuleAssignmentData = useCallback(async () => {
+    setAssignmentLoading(true);
     const { data, error } = await supabase
       .from('Assignment')
       .select('*')
@@ -47,6 +53,7 @@ function Module() {
     } else {
       setAssignments(data || []);
     }
+    setAssignmentLoading(false);
   }, [moduleId]);
 
   useEffect(() => {
@@ -65,9 +72,8 @@ function Module() {
   // };
 
 
-  if (!moduleData) {
-    return <span className="loading loading-spinner loading-lg"></span>;
-  }
+
+  const isLoading = moduleLoading || assignmentLoading;
 
   return (
     <div className='max-w-7xl flex-col mx-auto '>
@@ -76,8 +82,17 @@ function Module() {
         <h3 className='text-2xl font-bold'>Overview</h3>
       </div>
       <div className='flex justify-evenly mx-8 md:mx-16 p-2 bg-neutral text-neutral-content rounded-md'>
-        <h1 className='text-xl'>Module: {moduleData.name}</h1>
-        <h2 className='text-xl'>Overall Grade: {overallAverageGrade}%</h2>
+        {isLoading ? (
+          <>
+            <div className='skeleton w-full h-6 mx-10'></div>
+            <div className='skeleton w-full h-6'></div>
+          </>
+        ) : (
+          <>
+            {moduleData && <h1 className='text-xl'>Module: {moduleData.name}</h1>}
+            <h2 className='text-xl'>Overall Grade: {overallAverageGrade}%</h2>
+          </>
+        )}
       </div>
 
       {/* <div>
@@ -99,29 +114,45 @@ function Module() {
           <AssignmentDialog moduleId={moduleId} userId={user?.id.toString() || ''} onNewAssignment={fetchModuleAssignmentData} />
         </div>
         <div className='grid md:grid-cols-3 gap-4 md:px-14 pt-2'>
-          {assignments.map((assignment: Assignment, index: number) => (
-            <div key={index} className='bg-neutral p-4 rounded-lg'>
-              <div className='text-lg flex justify-between pb-2'>
-                <h3 className='text-neutral-content text-xl font-semibold'>{assignment.name}</h3>
-                <div className="dropdown">
-                  <div tabIndex={0} role="button" className="btn btn-xs btn-circle flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
-
-                  </div>
-                  <ul tabIndex={0} className=" dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><EditAssignmentDialog assignmentId={assignment.id} assignmentName={assignment.name} assignmentGrade={assignment.grade.toString()} assignmentWeight={assignment.weight.toString()} onEditAssignment={fetchModuleAssignmentData} /></li>
-                    <li><DeleteAssignmentDialog assignmentId={assignment.id} onDeleteAssignment={fetchModuleAssignmentData} /> </li>
-                  </ul>
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className='bg-neutral p-4 rounded-lg'>
+                <div className='animate-pulse flex justify-between pb-2'>
+                  <div className='skeleton w-full h-6 mr-3'></div>
+                  <div className='skeleton w-7 h-7 rounded-full shrink-0'></div>
+                </div>
+                <div className='flex justify-evenly text-neutral-content'>
+                  <div className='skeleton w-24 h-6'></div>
+                  <div className='skeleton w-24 h-6'></div>
                 </div>
               </div>
-              <div className='flex justify-evenly text-neutral-content'>
-                <p>Weight: {assignment.weight}%</p>
-                <p>Grade: {assignment.grade}%</p>
+            ))
+          ) : (
+            assignments.map((assignment: Assignment, index: number) => (
+              <div key={index} className='bg-neutral p-4 rounded-lg'>
+                <div className='text-lg flex justify-between pb-2'>
+                  <h3 className='text-neutral-content text-xl font-semibold'>{assignment.name}</h3>
+                  <div className="dropdown">
+                    <div tabIndex={0} role="button" className="btn btn-xs btn-circle flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                      </svg>
+
+                    </div>
+                    <ul tabIndex={0} className=" dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                      <li><EditAssignmentDialog assignmentId={assignment.id} assignmentName={assignment.name} assignmentGrade={assignment.grade.toString()} assignmentWeight={assignment.weight.toString()} onEditAssignment={fetchModuleAssignmentData} /></li>
+                      <li><DeleteAssignmentDialog assignmentId={assignment.id} onDeleteAssignment={fetchModuleAssignmentData} /> </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className='flex justify-evenly text-neutral-content'>
+                  <p>Weight: {assignment.weight}%</p>
+                  <p>Grade: {assignment.grade}%</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
+
         </div>
       </div>
     </div>

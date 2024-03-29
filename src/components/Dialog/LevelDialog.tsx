@@ -8,19 +8,20 @@ interface LevelDialogProps {
     userId: string;
     fetchData: () => Promise<void>;
     levels: Level[]; // Add this line
+    loading: boolean;
 }
 
-export default function LevelDialog({ userId, fetchData, levels }: LevelDialogProps) {
+export default function LevelDialog({ userId, fetchData, levels, loading }: LevelDialogProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [levelWeight, setLevelWeight] = useState('');
     const [levelName, setLevelName] = useState('');
 
     // Add this useEffect hook
     useEffect(() => {
-        if (levels.length === 0) {
+        if (!loading && levels.length === 0) {
             setIsOpen(true);
         }
-    }, [levels]);
+    }, [levels, loading]);
 
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
