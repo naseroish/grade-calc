@@ -38,7 +38,6 @@ export default function Home() {
         void fetchData();
     }, [fetchData]);
 
-
     return (
         <div className='flex-1 max-h-full justify-center max-w-7xl flex-col mx-auto overflow-hidden overflow-y-scroll'>
             <HomeNav />

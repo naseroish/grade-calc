@@ -12,6 +12,7 @@ const OverallAverageGradeComponent: React.FC<OverallAverageGradeComponentProps> 
   const [error, setError] = useState<string>('');
   const [overallAverageGrade, setLocalOverallAverageGrade] = useState<number>(0);
 
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -19,6 +20,7 @@ const OverallAverageGradeComponent: React.FC<OverallAverageGradeComponentProps> 
         const calculatedGrade = calculateOverallGrade(userData);
         setOverallAverageGrade(calculatedGrade);
         setLocalOverallAverageGrade(calculatedGrade);
+
       } catch (err) {
         console.error(err);
         setError('Failed to fetch user data');
@@ -28,6 +30,7 @@ const OverallAverageGradeComponent: React.FC<OverallAverageGradeComponentProps> 
     };
 
     void loadData();
+
   }, [userId, setOverallAverageGrade]);
 
   return (
@@ -39,6 +42,7 @@ const OverallAverageGradeComponent: React.FC<OverallAverageGradeComponentProps> 
           ? <p>{error}</p>
           : <div className="radial-progress bg-secondary text-white border-4 border-secondary" style={{ "--value": overallAverageGrade, "--size": "4rem", "--thickness": "2px" }}>{overallAverageGrade}%</div>
       }
+
     </div>
   );
 };

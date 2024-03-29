@@ -11,10 +11,12 @@ export const calculateModuleGrade = (assignments: Assignment[]): number => {
   });
 
   // Avoid division by zero; if no assignments or weights, return 0
+
   const moduleGrade = totalWeight === 0 ? 0 : totalWeightedGrade / totalWeight;
 
   // Return the result with one decimal place
   return parseFloat(moduleGrade.toFixed(1));
+
 };
 
 // Calculate the overall grade across all levels and modules

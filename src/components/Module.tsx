@@ -16,7 +16,7 @@ function Module() {
   const [moduleData, setModuleData] = useState<ModuleType | null>(null);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [overallAverageGrade, setOverallAverageGrade] = useState<number | null>(null);
-  //loading data
+
   const [moduleLoading, setModuleLoading] = useState<boolean>(true);
   const [assignmentLoading, setAssignmentLoading] = useState<boolean>(true);
 
@@ -152,6 +152,7 @@ function Module() {
               </div>
             ))
           )}
+
         </div>
       </div>
     </div>

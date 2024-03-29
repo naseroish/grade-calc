@@ -40,6 +40,7 @@ function Levels({ levelId, userId }: LevelsProps) {
         <div>
             <div>
                 {modules.map((module) => (
+
                     <div key={module.id} className="flex items-center  rounded-lg join">
                         <Link to={`/dashboard/levels/${levelId}/modules/${module.id}`} className="flex-grow join-item bg-white/[0.12]">
                             <div className=' text-neutral-content p-2 '>
@@ -48,6 +49,7 @@ function Levels({ levelId, userId }: LevelsProps) {
                         </Link>
                         <div className="dropdown dropdown-end dropdown-hover join-item">
                             <div tabIndex={0} role="button" className="bg-white/[0.12] text-white py-2 rounded-r-xl">
+
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                                 </svg>
