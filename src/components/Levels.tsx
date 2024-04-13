@@ -41,7 +41,7 @@ function Levels({ levelId, userId }: LevelsProps) {
             <div>
                 {modules.map((module) => (
 
-                    <div key={module.id} className="flex items-center  rounded-lg join">
+                    <div key={module.id} className="flex items-center  rounded-lg join pt-2">
                         <Link to={`/dashboard/levels/${levelId}/modules/${module.id}`} className="flex-grow join-item bg-white/[0.12]">
                             <div className=' text-neutral-content p-2 '>
                                 {module.name}

@@ -14,6 +14,7 @@ export default function AssignmentDialog({ moduleId, userId, onNewAssignment }: 
     const [assignmentName, setAssignmentName] = useState('');
     const [assignmentWeight, setAssignmentWeight] = useState('');
     const [assignmentGrade, setAssignmentGrade] = useState('');
+    const [error, setError] = useState<string | null>(null); // Add this line
 
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
@@ -28,6 +29,7 @@ export default function AssignmentDialog({ moduleId, userId, onNewAssignment }: 
 
             if (error) {
                 console.error('Error inserting module: ', error);
+                setError(error.message); // Set the error state
                 return null;
             }
             closeDialog();
@@ -37,6 +39,7 @@ export default function AssignmentDialog({ moduleId, userId, onNewAssignment }: 
             return data;
         } catch (error) {
             console.error('Unexpected error: ', error);
+            setError((error as Error).message); // Set the error state
             return null;
         }
     };
@@ -87,13 +90,14 @@ export default function AssignmentDialog({ moduleId, userId, onNewAssignment }: 
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 mt-4">
                                         Weight (%)
-                                        <input type="text" value={assignmentWeight} onChange={(e) => setAssignmentWeight(e.target.value)} className="grow" placeholder="e.g. 60" />
+                                        <input type="number" value={assignmentWeight} onChange={(e) => setAssignmentWeight(e.target.value)} className="grow " placeholder="e.g. 60" />
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 mt-4">
-                                        Achived Grade
-                                        <input type="text" value={assignmentGrade} onChange={(e) => setAssignmentGrade(e.target.value)} className="grow" placeholder="e.g. 90" />
+                                        Achived Grade (%)
+                                        <input type="number" value={assignmentGrade} onChange={(e) => setAssignmentGrade(e.target.value)} className="grow" placeholder="e.g. 90" />
                                     </label>
                                 </div>
+                                {error && <p className="text-red-500 text-sm p-6">{error}</p>}
                                 <div className="px-6 py-4 bg-base-300 flex justify-end">
                                     <button onClick={addAssignment} className="px-4 py-2 text-sm font-medium text-white bg-secondary rounded-md hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-3">
                                         Add

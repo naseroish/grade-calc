@@ -30,20 +30,20 @@ const OverallAverageGradeComponent: React.FC<OverallAverageGradeComponentProps> 
     void loadData();
   }, [userId, setOverallAverageGrade]);
 
-return (
-  <div className='flex justify-between bg-neutral py-2 px-10 rounded-md items-center'>
-    <p className='mr-4'>Overall Average Grade</p>
-    {loading
-      ? <div className='skeleton w-16 h-16 rounded-full shrink-0 mt-2' data-testid='loading-skeleton' />
-      : error
-        ? <p>{error}</p>
-        : <div className="radial-progress bg-secondary text-white border-4 border-secondary" 
+  return (
+    <div className='flex justify-between bg-neutral py-2 px-10 rounded-md items-center'>
+      <p className='mr-4'>Overall Average Grade</p>
+      {loading
+        ? <div className='skeleton w-16 h-16 rounded-full shrink-0 mt-2' data-testid='loading-skeleton' />
+        : error
+          ? <p>{error}</p>
+          : <div className="radial-progress bg-secondary text-white border-4 border-secondary"
             style={{ "--value": `${overallAverageGrade}`, "--size": "4rem", "--thickness": "2px" } as React.CSSProperties}>
             {overallAverageGrade}%
           </div>
-    }
-  </div>
-);
+      }
+    </div>
+  );
 };
 
 export default OverallAverageGradeComponent;

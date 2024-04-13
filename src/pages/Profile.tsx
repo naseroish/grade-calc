@@ -31,7 +31,7 @@ export default function Profile() {
             <div className='content-container flex items-center justify-center bg-neutral p-10'>
                 <div className='flex flex-col items-center text-neutral-content'>
                     {user && user.user_metadata && (
-                        <img src={user.user_metadata.avatar_url as string || ''} alt='User avatar' className='h-20 w-20 rounded-full' />
+                        <img src={user.user_metadata.avatar_url as string || ''} alt='' className='h-20 w-20 rounded-full' />
                     )}
                     {user && user.user_metadata && (
                         <h1 className='text-3xl font-bold mt-4'>{user.user_metadata.full_name}</h1>
@@ -40,6 +40,9 @@ export default function Profile() {
                         <p className='text-lg mt-2'>{user.email}</p>
                     )}
                     <DeleteAccountDialog userId={user?.id.toString() || ''} />
+                    {/* <ChangeEmailDialog userId={user?.id.toString() || ''} /> */}
+                    {/* <ChangePasswordDialog /> */}
+
                 </div>
             </div>
         </div>

@@ -16,6 +16,7 @@ export default function EditAssignmentDialog(
     const [isOpen, setIsOpen] = useState(false);
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
+    const [error, setError] = useState<string | null>(null); // Add this line
 
     const [newAssignmentName, setAssignmentName] = useState(assignmentName);
     const [newAssignmentWeight, setAssignmentWeight] = useState(assignmentWeight);
@@ -24,13 +25,14 @@ export default function EditAssignmentDialog(
     const editAssignment = async (): Promise<null> => {
         try {
             const { data, error } = await supabase
-            .from('Assignment')
-            .update({ name: newAssignmentName, weight: newAssignmentWeight, grade: newAssignmentGrade })
-            .eq('id', assignmentId);
-                
+                .from('Assignment')
+                .update({ name: newAssignmentName, weight: newAssignmentWeight, grade: newAssignmentGrade })
+                .eq('id', assignmentId);
+
 
             if (error) {
                 console.error('Error inserting module: ', error);
+                setError(error.message); // Set the error state
                 return null;
             }
             closeDialog();
@@ -40,6 +42,7 @@ export default function EditAssignmentDialog(
             return data;
         } catch (error) {
             console.error('Unexpected error: ', error);
+            setError((error as Error).message); // Set the error state
             return null;
         }
     };
@@ -90,13 +93,19 @@ export default function EditAssignmentDialog(
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 mt-4">
                                         Weight (%)
-                                        <input type="text" value={newAssignmentWeight} onChange={(e) => setAssignmentWeight(e.target.value)} className="grow" placeholder="e.g. 60" />
+                                        <input type="number" value={newAssignmentWeight} onChange={(e) => setAssignmentWeight(e.target.value)} className="grow" placeholder="e.g. 60" />
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 mt-4">
-                                        Achived Grade
-                                        <input type="text" value={newAssignmentGrade} onChange={(e) => setAssignmentGrade(e.target.value)} className="grow" placeholder="e.g. 90" />
+                                        Achived Grade (%)
+                                        <input type="number" value={newAssignmentGrade} onChange={(e) => setAssignmentGrade(e.target.value)} className="grow" placeholder="e.g. 90" />
                                     </label>
                                 </div>
+                                {/*if error  show error */}
+                                {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+                                    <strong className="font-bold">Error!</strong>
+                                    <span className="block sm:inline">{error}</span>
+                                </div>}
+
                                 <div className="px-6 py-4 bg-base-300 flex justify-end">
                                     <button onClick={editAssignment} className="px-4 py-2 text-sm font-medium text-white bg-secondary rounded-md hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-3">
                                         Add

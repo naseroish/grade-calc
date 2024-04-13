@@ -1,30 +1,62 @@
-# React + TypeScript + Vite
+# Gradiance Grade Calc
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the official repository of the Gradiance Grade Calc application. This application is designed to help students calculate their grades efficiently and accurately.
 
-Currently, two official plugins are available:
+## Application Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Gradiance Grade Calc is more than just a grade calculator; it's a tool that helps students plan their study time and prioritize assignments. With its user-friendly interface and secure data storage in user accounts, it provides a seamless experience for students. Explore the application at:
 
-## Expanding the ESLint configuration
+[View Live Application](https://gradiance.azurewebsites.net/)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features and Technologies
 
-- Configure the top-level `parserOptions` property like this:
+This application is designed with functionality and user-friendliness in mind, utilizing the latest in web development technologies to ensure a seamless user experience across all devices. Here’s what makes it stand out:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+  - Dynamic Content Management: Utilizes Supabase for data storage and retrieval, making grade calculations seamless and efficient.
+  - Interactive UI/UX: Built with React and Tailwind CSS, offering a responsive and interactive user experience that makes grade calculation easy and intuitive.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Tech Stack
+
+  - **Frontend:** React + TypeScript + Vite for dynamic and responsive design.
+  - **Backend:** [Supabase](https://supabase.com/) for database management, authentication, and backend functions.
+  - **Deployment:** Hosted on [Azure](https://azure.microsoft.com), leveraging its services for optimal performance worldwide.
+
+## Installation and Setup
+
+To run this application locally, follow these steps:
+  
+  - Clone the repository
+
+    git clone https://github.com/naseroish/grade-calc
+    cd grade-calc
+
+  - Install dependencies
+
+    npm install
+
+  - Set up Supabase
+
+     - Create a Supabase account and a new project.
+     - Obtain your unique Supabase URL and Anon Key.
+     - Create the necessary tables as per the schema mentioned in the supabase-schema.sql file.
+
+  - Configure environment variables
+
+  - Create a **.env.local** file in the root directory and add your Supabase credentials:
+
+    VITE_SUPABASE_URL=yourSupabaseUrl
+    VITE_SUPABASE_KEY=yourSupabaseAnonKey
+
+  - Run the application
+
+    npm run dev
+
+  The application should now be running on [localhost 5173](http://localhost:5173).
+
+Thank you for visiting the Gradiance Grade Calc repository
+
+<!-- ## Contributions
+
+We're always open to feedback and contributions to improve the application. If you have ideas or suggestions, please feel free to fork the repository, make your changes, and submit a pull request.
+
+Thank you for visiting the Gradiance Grade Calc repository. Let's create something amazing together! -->

@@ -13,6 +13,7 @@ export default function ModuleDialog({ levelId, userId, fetchData }: ModuleDialo
     const [isOpen, setIsOpen] = useState(false);
     const [moduleName, setModuleName] = useState('');
     const [moduleCredit, setModuleCredit] = useState('');
+    const [error, setError] = useState<string | null>(null); // Add this line
 
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
@@ -27,15 +28,21 @@ export default function ModuleDialog({ levelId, userId, fetchData }: ModuleDialo
 
             if (error) {
                 console.error('Error inserting module: ', error);
+                setError(error.message); // Set the error state
                 return null;
             }
             closeDialog();
             await fetchData();
             //add toaster with success message
 
+            // Reset the form fields
+            setModuleName('');
+            setModuleCredit('');
+
             return data;
         } catch (error) {
             console.error('Unexpected error: ', error);
+            setError((error as Error).message); // Set the error state
             return null;
         }
     };
@@ -86,9 +93,10 @@ export default function ModuleDialog({ levelId, userId, fetchData }: ModuleDialo
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 mt-4">
                                         Credit
-                                        <input type="text" value={moduleCredit} onChange={(e) => setModuleCredit(e.target.value)} className="grow" placeholder="e.g. 30" />
+                                        <input type="number" value={moduleCredit} onChange={(e) => setModuleCredit(e.target.value)} className="grow" placeholder="e.g. 30" />
                                     </label>
                                 </div>
+                                {error && <p className="text-red-500 text-sm p-4">{error}</p>}
                                 <div className="px-6 py-4 bg-base-300 flex justify-end">
                                     <button onClick={addModule} className="px-4 py-2 text-sm font-medium text-white bg-secondary rounded-md hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-3">
                                         Add

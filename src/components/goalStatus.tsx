@@ -10,14 +10,17 @@ export const GoalStatus: React.FC<GoalStatusProps> = ({ start, end, currentGrade
   const milestones = [start, start + (end - start) / 2, end];
 
   return (
-    <ul className="steps bg-neutral py-2 px-10 rounded-md items-center">
-      {milestones.map((milestone, index) => (
-        <li key={index} 
-            className={milestone <= currentGrade ? "step step-secondary" : "step"} 
-            data-content={milestone <= currentGrade ? "✓" : "✕"}>
-          {milestone}%
-        </li>
-      ))}
-    </ul>
+    <div className='flex bg-neutral py-2 px-10 rounded-md items-center'>
+    <p className=''>Milestones</p>
+      <ul className="steps flex-grow bg-neutral py-2 px-10 rounded-md items-center">
+        {milestones.map((milestone, index) => (
+          <li key={index} 
+              className={milestone <= currentGrade ? "step step-secondary" : "step"} 
+              data-content={milestone <= currentGrade ? "✓" : "✕"}>
+            {milestone}%
+          </li>
+        ))}
+      </ul>
+   </div>
   );
 };

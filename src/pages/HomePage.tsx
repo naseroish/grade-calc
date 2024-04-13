@@ -18,6 +18,12 @@ export default function Home() {
     const [user, setUser] = useState<User | null>(null);
     const [levels, setLevels] = useState<Level[]>([]);
     const [overallAverageGrade, setOverallAverageGrade] = useState<number>(0);
+    // Add a new state variable for the selected level
+    const [selectedLevel, setSelectedLevel] = useState<number>(() => {
+        // Get the selected level from local storage when initializing the state
+        const savedLevel = localStorage.getItem('selectedLevel');
+        return savedLevel ? Number(savedLevel) : 0;
+    });
     //loading for skeleton
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -47,7 +53,7 @@ export default function Home() {
             <div className='content-container flex items-center justify-left  py-2 px-10'>
                 <h3 className='text-2xl font-bold'>Overview</h3>
             </div>
-            <div className='grid md:grid-cols-3 gap-4 px-8 md:px-16 text-neutral-content'>
+            <div className='grid md:grid-cols-2 gap-4 px-8 md:px-16 text-neutral-content'>
                 {user && <OverallAverageGradeComponent userId={user?.id.toString() || ''} setOverallAverageGrade={setOverallAverageGrade} />}
 
                 {/* user goal status */}
@@ -57,7 +63,11 @@ export default function Home() {
 
             </div>
             <div className='md:px-10 py-2'>
-                <Tab.Group>
+                <Tab.Group defaultIndex={selectedLevel} onChange={index => {
+                    // Save the selected level in local storage whenever it changes
+                    localStorage.setItem('selectedLevel', String(index));
+                    setSelectedLevel(index);
+                }}>
                     <h3 className='text-2xl font-bold px-10 py-2'>Levels</h3>
                     {/* if loading add skeleton */}
                     {loading ? (

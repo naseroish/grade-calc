@@ -19,6 +19,7 @@ function Module() {
 
   const [moduleLoading, setModuleLoading] = useState<boolean>(true);
   const [assignmentLoading, setAssignmentLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
 
   const fetchModuleData = useCallback(async () => {
@@ -33,6 +34,7 @@ function Module() {
 
       if (error) {
         console.error('Error fetching module data:', error);
+        setError('Error fetching module data');
       } else {
         setModuleData(data[0] as ModuleType);
       }
@@ -50,6 +52,7 @@ function Module() {
 
     if (error) {
       console.error('Error fetching module assignment data:', error);
+      setError('Error fetching module assignment data');
     } else {
       setAssignments(data || []);
     }
@@ -81,7 +84,7 @@ function Module() {
       <div className='content-container flex items-center justify-left  py-2 px-6 md:px-10'>
         <h3 className='text-2xl font-bold'>Overview</h3>
       </div>
-      <div className='flex justify-evenly mx-8 md:mx-16 p-2 bg-neutral text-neutral-content rounded-md'>
+      <div className='grid md:grid-cols-2 gap-4 px-8 md:px-16 text-neutral-content'>
         {isLoading ? (
           <>
             <div className='skeleton w-full h-6 mx-10'></div>
@@ -89,8 +92,24 @@ function Module() {
           </>
         ) : (
           <>
-            {moduleData && <h1 className='text-xl'>Module: {moduleData.name}</h1>}
-            <h2 className='text-xl'>Overall Grade: {overallAverageGrade}%</h2>
+            <div className='flex justify-between bg-neutral py-2 px-10 rounded-md items-center'>
+              <p className='mr-4'>Overall Average Grade</p>
+              {isLoading
+                ? <div className='skeleton w-16 h-16 rounded-full shrink-0 mt-2' data-testid='loading-skeleton' />
+                : error
+                  ? <p>{error}</p>
+                  : <div className="radial-progress bg-secondary text-white border-4 border-secondary"
+                    style={{ "--value": `${overallAverageGrade}`, "--size": "4rem", "--thickness": "2px" } as React.CSSProperties}>
+                    {overallAverageGrade}%
+                  </div>
+              }
+            </div>
+            <div className='flex  bg-neutral p-2 px-10 rounded-md items-center'>
+              <p className='mr-4'>Module Name</p>
+              <p className='mr-4 text-lg'>{moduleData?.name}</p>
+              <p className='mr-4'>Module Credit</p>
+              <p className='text-xl'>{moduleData?.credit}</p>
+            </div>
           </>
         )}
       </div>
