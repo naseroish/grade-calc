@@ -27,12 +27,12 @@ To run this application locally, follow these steps:
   
   - Clone the repository
 
-    git clone https://github.com/naseroish/grade-calc
-    cd grade-calc
+        git clone https://github.com/naseroish/grade-calc
+        cd grade-calc
 
   - Install dependencies
 
-    npm install
+        npm install
 
   - Set up Supabase
 
@@ -44,12 +44,12 @@ To run this application locally, follow these steps:
 
   - Create a **.env.local** file in the root directory and add your Supabase credentials:
 
-    VITE_SUPABASE_URL=yourSupabaseUrl
-    VITE_SUPABASE_KEY=yourSupabaseAnonKey
+        VITE_SUPABASE_URL=yourSupabaseUrl
+        VITE_SUPABASE_KEY=yourSupabaseAnonKey
 
   - Run the application
 
-    npm run dev
+        npm run dev
 
   The application should now be running on [localhost 5173](http://localhost:5173).
 
